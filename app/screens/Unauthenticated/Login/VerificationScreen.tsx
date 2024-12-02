@@ -32,6 +32,7 @@ export const VerificationScreen = ({phoneNumber}: {phoneNumber: string}) => {
 
   useEffect(() => {
     if (isSuccess) {
+      // @ts-ignore
       navigation.navigate('More');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
