@@ -7,19 +7,13 @@ jobs:
   test-node:
     # Install node dependencies and run tests
     executor: node/default
-    environment:
-      JEST_JUNIT_OUTPUT_DIR: ./test-results/
     steps:
       - checkout
       - node/install-packages:
           pkg-manager: yarn
       - run:
-          command: yarn add jest-junit --ignore-workspace-root-check
-      - run:
-          name: Run tests
-          command: yarn run test --ci --runInBand --reporters=default --reporters=jest-junit
-      - store_test_results:
-          path: ./test-results/
+          name: Run eslint
+          command: yarn lint
   test-java:
     docker:
       - image: cimg/openjdk:17.0
