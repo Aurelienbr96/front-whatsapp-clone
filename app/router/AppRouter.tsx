@@ -1,10 +1,19 @@
 import React from 'react';
 import AuthRouter from './AuthRouter';
-import {NavigationContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {colors} from '../common/colors';
+
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: colors.black,
+  },
+};
 
 const AppRouter = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <AuthRouter />
     </NavigationContainer>
   );
