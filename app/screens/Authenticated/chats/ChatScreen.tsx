@@ -1,15 +1,51 @@
-import React, {useEffect} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useEffect, useRef} from 'react';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import * as Contacts from 'expo-contacts';
 
 import ContactScreen from './contact/ContactScreen';
+import {Header} from '../../../common/components/fragments/Header';
+import {CirclePlus} from 'lucide-react-native';
+import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import {colors} from '../../../common/colors';
+import {useGetScreenDimensions} from '../../../common/hook/useGetScreenDimensions';
 
-type ContactToSync = Array<{
+/* type ContactToSync = Array<{
   phoneNumbers?: Array<string | undefined>;
-}>;
+}>; */
+
+const OpenContactIcon = ({handleOnPress}: {handleOnPress: () => void}) => {
+  return (
+    <TouchableOpacity onPress={handleOnPress}>
+      <CirclePlus size={30} />
+    </TouchableOpacity>
+  );
+};
 
 export const ChatScreen = () => {
-  const handleOpenSheet = () => {};
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const [dimensions] = useGetScreenDimensions();
+
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const animatedPosition = useSharedValue(dimensions.screen.height);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const scale = interpolate(
+      animatedPosition.value,
+      [dimensions.screen.height, 0],
+      [1, 0.9],
+    );
+    return {
+      transform: [{scale}],
+    };
+  });
 
   useEffect(() => {
     (async () => {
@@ -24,21 +60,38 @@ export const ChatScreen = () => {
         });
 
         if (data.length > 0) {
-          const contacts: ContactToSync = data.map(contact => ({
+          data.map(contact => ({
             phoneNumbers: contact.phoneNumbers?.map(p => p.number),
           }));
-          console.log(contacts);
+          /* console.log(contacts); */
         }
       }
     })();
   }, []);
+
   return (
-    <View style={{flex: 1}}>
+    <Animated.View style={[styles.container, animatedStyle]}>
+      <Header
+        renderRightIcon={() => (
+          <OpenContactIcon handleOnPress={handlePresentModalPress} />
+        )}>
+        Messages
+      </Header>
       <Text>Home</Text>
-      <ContactScreen />
-      <TouchableOpacity onPress={handleOpenSheet}>
-        <Text>Open sheet</Text>
-      </TouchableOpacity>
-    </View>
+      <ContactScreen
+        animatedPosition={animatedPosition}
+        bottomSheetModalRef={bottomSheetModalRef}
+      />
+    </Animated.View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    backgroundColor: colors.white,
+    overflow: 'hidden',
+  },
+});

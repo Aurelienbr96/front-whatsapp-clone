@@ -39,6 +39,7 @@ export function MyTabs() {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarIcon: ({focused}) => TabBarIcons(route, focused),
+        headerShown: false,
       })}>
       <MessageStack.Screen
         options={() => ({
