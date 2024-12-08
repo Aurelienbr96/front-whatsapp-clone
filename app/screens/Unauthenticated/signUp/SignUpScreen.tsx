@@ -1,12 +1,13 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
 import {StyleSheet, Text} from 'react-native';
-import {useSignUpMutation} from '../../../api/auth/userApi';
+import {useSignUpMutation} from '../../../api/user/userApi';
 import {Button} from '../../../common/components/ui/Button';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ControlledTextInput} from '../../../common/components/input/TextInput';
 import {useGetScreenDimensions} from '../../../common/hook/useGetScreenDimensions';
 import {VerificationScreen} from '../Login/VerificationScreen';
+import {colors} from '../../../common/colors';
 
 type Input = {
   phoneNumber: string;
@@ -44,6 +45,7 @@ export const SignUpScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.white,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

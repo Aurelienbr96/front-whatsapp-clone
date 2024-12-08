@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 
 import {useForm} from 'react-hook-form';
 import {VerificationScreen} from './VerificationScreen';
@@ -8,6 +8,8 @@ import {ControlledTextInput} from '../../../common/components/input/TextInput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Button} from '../../../common/components/ui/Button';
 import {useGetScreenDimensions} from '../../../common/hook/useGetScreenDimensions';
+import {colors} from '../../../common/colors';
+import {transformApiError} from '../../../api/apiError';
 
 type Input = {
   phoneNumber: string;
@@ -37,12 +39,14 @@ export const LoginScreen = () => {
       <Button onPress={handleSubmit(onSubmit)} style={styles.button}>
         {result.isLoading ? 'Loading...' : 'Send code'}
       </Button>
+      {result.isError && <Text>{transformApiError(result.error)}</Text>}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.white,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

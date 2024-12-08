@@ -19,6 +19,7 @@ export const authApi = createApi({
       AuthApiModel.Login.Input
     >({
       query: body => ({url: 'auth/login', method: 'POST', body}),
+
       transformErrorResponse: (err: ApiError) => {
         return err;
       },
@@ -29,7 +30,24 @@ export const authApi = createApi({
     >({
       query: body => ({url: 'auth/send-code', method: 'POST', body}),
     }),
+    refreshToken: builder.mutation<
+      AuthApiModel.Refresh.Output,
+      AuthApiModel.Refresh.Input
+    >({
+      query: body => ({url: 'auth/refresh', method: 'POST', body}),
+    }),
+    logout: builder.mutation<
+      AuthApiModel.Logout.Output,
+      AuthApiModel.Logout.Input
+    >({
+      query: body => ({url: 'auth/logout', method: 'POST', body}),
+    }),
   }),
 });
 
-export const {useLoginMutation, useSendCodeMutation} = authApi;
+export const {
+  useLoginMutation,
+  useSendCodeMutation,
+  useRefreshTokenMutation,
+  useLogoutMutation,
+} = authApi;

@@ -1,10 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export interface CounterState {
+export interface BottomSheetState {
   isOpen: boolean;
 }
 
-const initialState: CounterState = {
+const initialState: BottomSheetState = {
   isOpen: false,
 };
 

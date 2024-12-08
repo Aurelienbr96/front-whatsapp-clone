@@ -1,49 +1,48 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useCallback, useMemo, useRef} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import React, {useMemo} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetView,
-  useBottomSheetModal,
+  SNAP_POINT_TYPE,
 } from '@gorhom/bottom-sheet';
+import {BottomSheetModalMethods} from '@gorhom/bottom-sheet/lib/typescript/types';
+import {BottomSheetDefaultBackdropProps} from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
+import {SharedValue} from 'react-native-reanimated';
 
-const ContactScreen = () => {
-  // ref
-  const {dismiss} = useBottomSheetModal();
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+type Props = {
+  bottomSheetModalRef: React.RefObject<BottomSheetModalMethods>;
+  handleSheetChanges?: (
+    index: number,
+    position: number,
+    type: SNAP_POINT_TYPE,
+  ) => void;
+  animatedPosition: SharedValue<number>;
+};
 
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
-  }, []);
-  const handleCloseModalPress = useCallback(() => {
-    dismiss();
-  }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
+const ContactScreen = ({bottomSheetModalRef, animatedPosition}: Props) => {
+  const renderBackdrop = (
+    props: React.JSX.IntrinsicAttributes & BottomSheetDefaultBackdropProps,
+  ) => (
+    <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
+  );
+  const snapPoints = useMemo(() => ['93%'], []);
 
-  const snapPoints = useMemo(() => ['95%'], []);
+  const handleOnAnimate = (fromIndex: number, toIndex: number) => {
+    console.log(fromIndex, toIndex);
+  };
 
-  // renders
   return (
     <View>
-      <Button
-        onPress={handlePresentModalPress}
-        title="Present Modal"
-        color="black"
-      />
-      <Button
-        onPress={handleCloseModalPress}
-        title="Close modal"
-        color="black"
-      />
       <BottomSheetModal
+        name="Contact"
         snapPoints={snapPoints}
         index={1}
         ref={bottomSheetModalRef}
-        onChange={handleSheetChanges}>
+        backdropComponent={renderBackdrop}
+        onAnimate={handleOnAnimate}
+        animatedPosition={animatedPosition}>
         <BottomSheetView style={styles.contentContainer}>
           <Text>Awesome 🎉</Text>
         </BottomSheetView>

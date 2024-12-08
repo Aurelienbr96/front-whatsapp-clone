@@ -13,7 +13,10 @@ export const userApi = createApi({
     >({
       query: body => ({url: 'user', method: 'POST', body}),
     }),
+    getMe: builder.query<UserApiModel.GetMe.Output, UserApiModel.GetMe.Input>({
+      query: () => ({url: 'user/me', method: 'GET'}),
+    }),
   }),
 });
 
-export const {useSignUpMutation} = userApi;
+export const {useSignUpMutation, useGetMeQuery} = userApi;

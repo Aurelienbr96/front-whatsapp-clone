@@ -9,6 +9,7 @@ import {
 import {RootStackParamList} from '../../../router/AuthRouter';
 import {Button} from '../../../common/components/ui/Button';
 import {useGetScreenDimensions} from '../../../common/hook/useGetScreenDimensions';
+import {colors} from '../../../common/colors';
 
 type HomeScreenProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -50,6 +51,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.white,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

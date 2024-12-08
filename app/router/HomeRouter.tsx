@@ -6,6 +6,12 @@ import {CirclePlus, MessageCircle, UserRoundPen} from 'lucide-react-native';
 import {ParamListBase, RouteProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {TouchableOpacity} from 'react-native';
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import {useGetScreenDimensions} from '../common/hook/useGetScreenDimensions';
 
 export type MessageStackParamList = {
   ChatList: undefined;
@@ -35,20 +41,36 @@ const TabBarIcons = (
 };
 
 export function MyTabs() {
+  const [dimensions] = useGetScreenDimensions();
+  const animatedPosition = useSharedValue(dimensions.screen.height);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const scale = interpolate(
+      animatedPosition.value,
+      [dimensions.screen.height, 0],
+      [1, 0.9],
+    );
+    return {
+      transform: [{scale}],
+    };
+  });
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused}) => TabBarIcons(route, focused),
-      })}>
-      <MessageStack.Screen
-        options={() => ({
-          headerRight: () => ChatListHeader(),
-        })}
-        name="ChatList"
-        component={ChatScreen}
-      />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
-    </Tab.Navigator>
+    <Animated.View style={[{flex: 1}, animatedStyle]}>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused}) => TabBarIcons(route, focused),
+          headerShown: false,
+        })}>
+        <MessageStack.Screen
+          options={() => ({
+            headerRight: () => ChatListHeader(),
+          })}
+          name="ChatList">
+          {() => <ChatScreen animatedPosition={animatedPosition} />}
+        </MessageStack.Screen>
+        <Tab.Screen name="Profile" component={ProfileScreen} />
+      </Tab.Navigator>
+    </Animated.View>
   );
 }
 
