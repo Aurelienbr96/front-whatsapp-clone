@@ -27,7 +27,7 @@ const ContactScreen = ({bottomSheetModalRef, animatedPosition}: Props) => {
   ) => (
     <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
   );
-  const snapPoints = useMemo(() => ['95%'], []);
+  const snapPoints = useMemo(() => ['93%'], []);
 
   const handleOnAnimate = (fromIndex: number, toIndex: number) => {
     console.log(fromIndex, toIndex);

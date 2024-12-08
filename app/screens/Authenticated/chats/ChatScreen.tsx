@@ -6,13 +6,8 @@ import ContactScreen from './contact/ContactScreen';
 import {Header} from '../../../common/components/fragments/Header';
 import {CirclePlus} from 'lucide-react-native';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-  useSharedValue,
-} from 'react-native-reanimated';
+import Animated, {SharedValue} from 'react-native-reanimated';
 import {colors} from '../../../common/colors';
-import {useGetScreenDimensions} from '../../../common/hook/useGetScreenDimensions';
 
 /* type ContactToSync = Array<{
   phoneNumbers?: Array<string | undefined>;
@@ -26,26 +21,16 @@ const OpenContactIcon = ({handleOnPress}: {handleOnPress: () => void}) => {
   );
 };
 
-export const ChatScreen = () => {
+export const ChatScreen = ({
+  animatedPosition,
+}: {
+  animatedPosition: SharedValue<number>;
+}) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const [dimensions] = useGetScreenDimensions();
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-
-  const animatedPosition = useSharedValue(dimensions.screen.height);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    const scale = interpolate(
-      animatedPosition.value,
-      [dimensions.screen.height, 0],
-      [1, 0.9],
-    );
-    return {
-      transform: [{scale}],
-    };
-  });
 
   useEffect(() => {
     (async () => {
@@ -70,7 +55,7 @@ export const ChatScreen = () => {
   }, []);
 
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
+    <Animated.View style={[styles.container]}>
       <Header
         renderRightIcon={() => (
           <OpenContactIcon handleOnPress={handlePresentModalPress} />

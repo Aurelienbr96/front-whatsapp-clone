@@ -1,29 +1,13 @@
 import React, {useEffect} from 'react';
 import {ActivityIndicator, SafeAreaView, StyleSheet, Text} from 'react-native';
 
-import {ApiError, useLoginMutation} from '../../../api/auth/authApi';
+import {useLoginMutation} from '../../../api/auth/authApi';
 
 import {useGetScreenDimensions} from '../../../common/hook/useGetScreenDimensions';
 import {ValidateOTPInput} from '../../../common/components/input/ValidateOTMInput';
 import {useNavigation} from '@react-navigation/native';
-
-const isApiError = (error: unknown): error is ApiError => {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'data' in error &&
-    typeof (error as any).data === 'object' &&
-    error.data !== null &&
-    'message' in (error as any).data
-  );
-};
-
-const transformApiError = (error: unknown): string => {
-  if (isApiError(error)) {
-    return error.data.message;
-  }
-  return 'An unknown error happened';
-};
+import {colors} from '../../../common/colors';
+import {transformApiError} from '../../../api/apiError';
 
 export const VerificationScreen = ({phoneNumber}: {phoneNumber: string}) => {
   const navigation = useNavigation();
@@ -61,6 +45,7 @@ export const VerificationScreen = ({phoneNumber}: {phoneNumber: string}) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: colors.white,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

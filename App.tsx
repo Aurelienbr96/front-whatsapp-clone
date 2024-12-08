@@ -12,7 +12,7 @@ if (__DEV__) {
 import React from 'react';
 
 import AppRouter from './app/router/AppRouter';
-import {store} from './app/api/store';
+import {store} from './app/redux/store';
 import {Provider} from 'react-redux';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
