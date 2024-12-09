@@ -8,7 +8,7 @@ export interface UserStoreState {
 }
 
 const initialState: UserStoreState = {
-  isLogin: undefined,
+  isLogin: false,
   user: UserDomainModel.nullUser,
 };
 
