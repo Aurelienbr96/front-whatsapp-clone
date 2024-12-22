@@ -1,6 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {authApi} from '../../api/auth/authApi';
 import {UserDomainModel} from '../../type/user/user-domain.model';
+import {userApi} from '../../api/user/userApi';
 
 export interface UserStoreState {
   isLogin?: boolean;
@@ -30,9 +31,18 @@ export const userSlice = createSlice({
       },
     );
     builder.addMatcher(
-      authApi.endpoints.login.matchPending,
-      () => initialState,
-    );
+      userApi.endpoints.getMe.matchFulfilled,
+      (_state, action) => {
+        return {
+          isLogin: true,
+          user: action.payload,
+        };
+      },
+    ),
+      builder.addMatcher(
+        authApi.endpoints.login.matchPending,
+        () => initialState,
+      );
     builder.addMatcher(authApi.endpoints.refreshToken.matchRejected, () => {
       return initialState;
     });

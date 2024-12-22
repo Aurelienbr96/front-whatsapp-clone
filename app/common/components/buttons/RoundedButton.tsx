@@ -1,7 +1,6 @@
 import React, {PropsWithChildren} from 'react';
 import {
   StyleSheet,
-  Text,
   TouchableOpacity,
   TouchableWithoutFeedbackProps,
 } from 'react-native';
@@ -12,7 +11,7 @@ export const RoundedButton = (
 ) => {
   return (
     <TouchableOpacity style={[styles.container, props.style]} {...props}>
-      <Text style={styles.text}>{props.children}</Text>
+      {props.children}
     </TouchableOpacity>
   );
 };
@@ -23,14 +22,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 55,
     height: 55,
-    padding: 10,
     borderWidth: 1,
     borderColor: colors.mediumLightGray,
     borderRadius: 100,
-  },
-  text: {
-    color: colors.darkGreen,
-    textAlign: 'center',
-    fontSize: 12,
+    overflow: 'hidden',
   },
 });
