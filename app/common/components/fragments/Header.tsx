@@ -1,6 +1,13 @@
 import React, {PropsWithChildren} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {colors} from '../../colors';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+
 import {isIOS} from '../../utils/isIOS';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
@@ -20,50 +27,47 @@ export const Header = ({
   const handleOnGoBackPress = () => {
     navigation.goBack();
   };
+  const containerStyle: StyleProp<ViewStyle> = {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    paddingTop: isIOS() ? top + 10 : 10,
+    paddingHorizontal: 10,
+    alignItems: 'center', // Valid FlexAlignType
+    justifyContent: 'space-between', // Valid FlexAlignType
+  };
   return (
-    <View style={styles({top}).container}>
+    <View style={containerStyle}>
       {goBack ? (
         <TouchableOpacity
-          style={styles({top}).fakeContainer}
+          style={styles.fakeContainer}
           onPress={handleOnGoBackPress}>
           <Text>Go back</Text>
         </TouchableOpacity>
       ) : (
-        <View style={styles({top}).fakeContainer} />
+        <View style={styles.fakeContainer} />
       )}
-      <View style={styles({top}).fakeContainer}>
-        <Text style={styles({top}).headerText}>{children}</Text>
+      <View style={styles.fakeContainer}>
+        <Text style={styles.headerText}>{children}</Text>
       </View>
       {renderRightIcon ? (
-        <View
-          style={[styles({top}).fakeContainer, {justifyContent: 'flex-end'}]}>
+        <View style={[styles.fakeContainer, {justifyContent: 'flex-end'}]}>
           {renderRightIcon()}
         </View>
       ) : (
-        <View style={styles({top}).fakeContainer} />
+        <View style={styles.fakeContainer} />
       )}
     </View>
   );
 };
 
-const styles = ({top}: {top: number}) =>
-  StyleSheet.create({
-    fakeContainer: {
-      flexDirection: 'row',
-      flex: 1,
-      justifyContent: 'center',
-    },
-    container: {
-      flexDirection: 'row',
-      paddingVertical: 15,
-      paddingTop: isIOS() ? top : 0,
-      paddingHorizontal: 10,
-      backgroundColor: colors.white,
-      alignItems: 'center',
-      justifyContent: 'space-between',
-    },
-    headerText: {
-      fontWeight: '500',
-      fontSize: 20,
-    },
-  });
+const styles = StyleSheet.create({
+  fakeContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontWeight: '600',
+    fontSize: 16,
+  },
+});

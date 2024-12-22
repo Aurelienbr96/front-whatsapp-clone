@@ -4,18 +4,24 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen} from '../screens/Unauthenticated/home/HomeScreen';
 import {SignUpScreen} from '../screens/Unauthenticated/signUp/SignUpScreen';
 import {LoginScreen} from '../screens/Unauthenticated/Login/LoginScreen';
-import {AuthenticatedRouter} from './HomeRouter';
+import {
+  AuthenticatedRouter,
+  AuthenticatedStackParamList,
+} from './AuthenticatedRouter';
 
-import {SplashScreen} from '../screens/Unauthenticated/SplashScreen/SplashScreen';
 import {selectIsLoggedIn} from '../redux/selector/userSliceSelector';
 import {useSelector} from 'react-redux';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  NavigatorScreenParams,
+  useNavigation,
+} from '@react-navigation/native';
 
 export type RootStackParamList = {
   Home: undefined;
   SignUp: undefined;
   Login: undefined;
-  More: undefined;
+  Authenticated: NavigatorScreenParams<AuthenticatedStackParamList>;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -36,7 +42,7 @@ function AuthRouter(): React.JSX.Element {
           index: 1,
           routes: [
             {
-              name: 'More',
+              name: 'Authenticated',
             },
           ],
         }),
@@ -57,17 +63,15 @@ function AuthRouter(): React.JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
-  if (isLoggedIn === undefined) {
-    return <SplashScreen />;
-  }
-
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="Home">
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen
-        name="More"
+        name="Authenticated"
         component={AuthenticatedRouter}
         options={{headerShown: false}}
       />

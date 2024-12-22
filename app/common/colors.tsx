@@ -1,5 +1,16 @@
 export const colors = {
-  darkGray: '#212427',
+  black: '#0A0A0A',
   white: 'white',
-  black: 'black',
+  /* green */
+  green: '#1FA961',
+  darkGreen: '#008244',
+  /* red */
+  red: '#EA1B40',
+  /* gray */
+  darkGray: '#212427',
+  mediumDarkGray: '#797A7B',
+  lightGray: '#F4F4F4',
+  mediumGray: '#7C7D7E',
+  mediumLightGray: '#C6C6C6',
+  gray30: '#DFDFDF',
 };

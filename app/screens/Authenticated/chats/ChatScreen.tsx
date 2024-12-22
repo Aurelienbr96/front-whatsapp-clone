@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import * as Contacts from 'expo-contacts';
 
 import ContactScreen from './contact/ContactScreen';
 import {Header} from '../../../common/components/fragments/Header';
 import {CirclePlus} from 'lucide-react-native';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import Animated, {SharedValue} from 'react-native-reanimated';
+import {SharedValue} from 'react-native-reanimated';
 import {colors} from '../../../common/colors';
 
 /* type ContactToSync = Array<{
@@ -16,7 +16,7 @@ import {colors} from '../../../common/colors';
 const OpenContactIcon = ({handleOnPress}: {handleOnPress: () => void}) => {
   return (
     <TouchableOpacity onPress={handleOnPress}>
-      <CirclePlus size={30} />
+      <CirclePlus color={colors.green} size={30} />
     </TouchableOpacity>
   );
 };
@@ -55,7 +55,7 @@ export const ChatScreen = ({
   }, []);
 
   return (
-    <Animated.View style={[styles.container]}>
+    <View style={[styles.container]}>
       <Header
         renderRightIcon={() => (
           <OpenContactIcon handleOnPress={handlePresentModalPress} />
@@ -67,7 +67,7 @@ export const ChatScreen = ({
         animatedPosition={animatedPosition}
         bottomSheetModalRef={bottomSheetModalRef}
       />
-    </Animated.View>
+    </View>
   );
 };
 
