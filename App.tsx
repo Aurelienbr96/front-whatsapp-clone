@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import KeyboardManager from 'react-native-keyboard-manager';
 if (__DEV__) {
   require('./ReactotronConfig');
 }
@@ -17,8 +18,12 @@ import {Provider} from 'react-redux';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {PersistGate} from 'redux-persist/integration/react';
+import {Platform} from 'react-native';
 
 function App(): React.JSX.Element {
+  if (Platform.OS === 'ios') {
+    KeyboardManager.setEnable(false);
+  }
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <BottomSheetModalProvider>

@@ -1,21 +1,13 @@
 import React from 'react';
 import AuthRouter from './AuthRouter';
-import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import {colors} from '../common/colors';
-import {useGetMeQuery} from '../api/user/userApi';
+import {NavigationContainer} from '@react-navigation/native';
 
-const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: colors.black,
-  },
-};
+import {useGetMeQuery} from '../api/user/userApi';
 
 const AppRouter = () => {
   useGetMeQuery();
   return (
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer>
       <AuthRouter />
     </NavigationContainer>
   );

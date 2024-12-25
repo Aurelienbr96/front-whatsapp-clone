@@ -6,7 +6,6 @@ export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery,
   tagTypes: ['USER'],
-  // TODO remove
   endpoints: builder => ({
     signUp: builder.mutation<
       UserApiModel.CreateOne.Output,
@@ -17,6 +16,16 @@ export const userApi = createApi({
     getMe: builder.query<UserApiModel.GetMe.Output, UserApiModel.GetMe.Input>({
       providesTags: ['USER'],
       query: () => ({url: 'user/me', method: 'GET'}),
+    }),
+    syncContacts: builder.mutation<
+      UserApiModel.SyncContact.Output,
+      UserApiModel.SyncContact.Input
+    >({
+      query: (input: UserApiModel.SyncContact.Input) => ({
+        url: 'user/sync-contacts',
+        body: input,
+        method: 'POST',
+      }),
     }),
     updateProfilePicture: builder.mutation<
       UserApiModel.UpdateProfilePicture.Output,
@@ -50,4 +59,5 @@ export const {
   useGetMeQuery,
   useUpdateProfilePictureMutation,
   useDeleteProfilePictureMutation,
+  useSyncContactsMutation,
 } = userApi;

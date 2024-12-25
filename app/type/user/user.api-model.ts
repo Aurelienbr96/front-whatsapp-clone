@@ -17,6 +17,13 @@ export namespace UserApiModel {
     };
     export type Output = void;
   }
+  export namespace SyncContact {
+    export type Input = {
+      ownerId: string;
+      phoneNumbers: string[];
+    };
+    export type Output = void;
+  }
 
   export namespace DeleteProfilePicture {
     export type Input = void;

@@ -12,5 +12,6 @@ export const colors = {
   lightGray: '#F4F4F4',
   mediumGray: '#7C7D7E',
   mediumLightGray: '#C6C6C6',
+  gray60: '#808084',
   gray30: '#DFDFDF',
 };

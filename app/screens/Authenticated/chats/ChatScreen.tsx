@@ -1,17 +1,18 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useCallback, useEffect} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import * as Contacts from 'expo-contacts';
 
-import ContactScreen from './contact/ContactScreen';
 import {Header} from '../../../common/components/fragments/Header';
 import {CirclePlus} from 'lucide-react-native';
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import {SharedValue} from 'react-native-reanimated';
-import {colors} from '../../../common/colors';
 
-/* type ContactToSync = Array<{
-  phoneNumbers?: Array<string | undefined>;
-}>; */
+import {colors} from '../../../common/colors';
+import {useSyncContactsMutation} from '../../../api/user/userApi';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../../redux/selector/userSliceSelector';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../../router/AuthRouter';
+import {useNavigation} from '@react-navigation/native';
 
 const OpenContactIcon = ({handleOnPress}: {handleOnPress: () => void}) => {
   return (
@@ -21,15 +22,21 @@ const OpenContactIcon = ({handleOnPress}: {handleOnPress: () => void}) => {
   );
 };
 
-export const ChatScreen = ({
-  animatedPosition,
-}: {
-  animatedPosition: SharedValue<number>;
-}) => {
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+type RootNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Authenticated'
+>;
+
+export const ChatScreen = () => {
+  const navigate = useNavigation<RootNavigationProp>();
+
+  const [syncContact] = useSyncContactsMutation();
+  const user = useSelector(selectUser);
 
   const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+    navigate.navigate('Authenticated', {
+      screen: 'ContactScreen',
+    });
   }, []);
 
   useEffect(() => {
@@ -45,10 +52,18 @@ export const ChatScreen = ({
         });
 
         if (data.length > 0) {
-          data.map(contact => ({
-            phoneNumbers: contact.phoneNumbers?.map(p => p.number),
-          }));
-          /* console.log(contacts); */
+          const phoneNumbers = [];
+          for (const contact of data) {
+            if (!contact.phoneNumbers) {
+              continue;
+            }
+            for (const phoneNumber of contact.phoneNumbers) {
+              if (phoneNumber !== undefined && phoneNumber.number) {
+                phoneNumbers.push(phoneNumber.number);
+              }
+            }
+          }
+          syncContact({phoneNumbers, ownerId: user.id});
         }
       }
     })();
@@ -63,10 +78,6 @@ export const ChatScreen = ({
         Messages
       </Header>
       <Text>Home</Text>
-      <ContactScreen
-        animatedPosition={animatedPosition}
-        bottomSheetModalRef={bottomSheetModalRef}
-      />
     </View>
   );
 };

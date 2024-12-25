@@ -19,12 +19,13 @@ import {userSlice} from './store/user.store';
 
 import {rootReducer} from './rootReducer';
 import {authMiddleware} from './middleware/auth.middleware';
+import {contactApi} from '../api/contact/contactApi';
 
 export const listenerMiddleware = createListenerMiddleware();
 
 listeners.forEach(listener => listener(listenerMiddleware));
 
-export const reduxApis = [userApi, authApi];
+export const reduxApis = [userApi, authApi, contactApi];
 
 const persistConfig = {
   key: 'root',

@@ -72,8 +72,6 @@ export const CameraEditProfile: React.FC = () => {
   /* Rtk query */
   const [updatePhoto, meta] = useUpdateProfilePictureMutation();
 
-  console.log('Meta tag api:', meta.isSuccess, meta.isLoading);
-
   useEffect(() => {
     if (meta.isSuccess) {
       goBack();

@@ -65,7 +65,7 @@ export const GalleryEditProfilePictureScreen = () => {
   const handleSelectImage = (image: CameraRollImageType) => () => {
     navigation.navigate('Authenticated', {
       screen: 'SelectedImageScreen',
-      params: {image},
+      params: {image: image.uri},
     });
   };
 

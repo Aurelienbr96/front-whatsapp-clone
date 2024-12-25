@@ -1,4 +1,6 @@
 import React, {useEffect, useMemo} from 'react';
+import {launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import {
   View,
   Text,
@@ -51,11 +53,33 @@ const MediaChoiceBottomSheet = ({bottomSheetModalRef}: Props) => {
       screen: 'CameraEditProfilePicture',
     });
   };
-  const handleNavigateToGalleryScreen = () => {
+  const handleNavigateToGalleryScreen = async () => {
     bottomSheetModalRef.current?.dismiss();
-    navigation.navigate('Authenticated', {
-      screen: 'GalleryEditProfilePicture',
+    const selectedImage = await launchImageLibrary({
+      mediaType: 'photo',
+      presentationStyle: 'fullScreen',
     });
+    const uri = selectedImage.assets?.[0].uri;
+    if (uri) {
+      setTimeout(async () => {
+        const result = await ImagePicker.openCropper({
+          cropperCircleOverlay: true,
+          forceJpg: true,
+          cropping: true,
+          path: uri,
+          mediaType: 'photo',
+        });
+        console.log(result);
+      }, 200);
+
+      console.log('uri', uri);
+    }
+
+    /* await ImagePicker.openPicker({
+      cropping: true,
+      cropperCircleOverlay: true,
+      mediaType: 'photo',
+    }); */
   };
   const snapPoints = useMemo(() => ['30%'], []);
 

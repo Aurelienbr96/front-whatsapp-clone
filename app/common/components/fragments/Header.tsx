@@ -15,12 +15,14 @@ import {useNavigation} from '@react-navigation/native';
 type Props = {
   goBack?: boolean;
   renderRightIcon?: () => React.ReactNode;
+  containerStyle?: StyleProp<ViewStyle>;
 };
 
 export const Header = ({
   children,
   goBack,
   renderRightIcon,
+  containerStyle: optContainerStyle,
 }: PropsWithChildren<Props>) => {
   const {top} = useSafeAreaInsets();
   const navigation = useNavigation();
@@ -36,7 +38,7 @@ export const Header = ({
     justifyContent: 'space-between', // Valid FlexAlignType
   };
   return (
-    <View style={containerStyle}>
+    <View style={[containerStyle, optContainerStyle]}>
       {goBack ? (
         <TouchableOpacity
           style={styles.fakeContainer}

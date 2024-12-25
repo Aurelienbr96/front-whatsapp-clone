@@ -13,7 +13,7 @@ export const SelectedImageScreen = ({route}: SelectedImageScreenProps) => {
   const {image} = route.params;
   return (
     <View style={styles.container}>
-      <Image source={{uri: image.uri}} style={styles.image} />
+      <Image source={{uri: image}} style={styles.image} />
     </View>
   );
 };
