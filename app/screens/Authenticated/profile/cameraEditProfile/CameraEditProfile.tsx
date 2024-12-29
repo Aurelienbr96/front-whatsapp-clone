@@ -290,6 +290,7 @@ const styles = StyleSheet.create({
     left: 0,
   },
   container: {
+    backgroundColor: colors.black,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

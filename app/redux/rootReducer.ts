@@ -4,6 +4,7 @@ import {authApi} from '../api/auth/authApi';
 import {userSlice} from './store/user.store';
 import {bottomSheetSlice} from './store/bottomSheet';
 import {contactApi} from '../api/contact/contactApi';
+import {conversationSlice} from './store/conversation.store';
 
 export const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   [userSlice.name]: userSlice.reducer,
   [bottomSheetSlice.name]: bottomSheetSlice.reducer,
   [contactApi.reducerPath]: contactApi.reducer,
+  [conversationSlice.name]: conversationSlice.reducer,
 });

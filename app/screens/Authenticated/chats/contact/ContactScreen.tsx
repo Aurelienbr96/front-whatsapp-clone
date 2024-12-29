@@ -47,13 +47,19 @@ const ContactScreen = () => {
         New chat
       </Header>
       <View style={styles.contactContainerStyle}>
-        {data?.map(contact => (
+        {data?.map((contact, idx) => (
           <TouchableOpacity
             key={contact.id}
-            style={styles.contactCardStyle}
+            style={[
+              styles.contactCardStyle,
+              idx > 0 ? styles.contactBorderTop : undefined,
+            ]}
             onPress={() => handleNavigateToChatScreen(contact.id)}>
             {contact.avatar ? (
-              <Image source={{uri: contact.avatar}} />
+              <Image
+                style={{height: 40, width: 40, borderRadius: 100}}
+                source={{uri: contact.avatar}}
+              />
             ) : (
               <CircleUserRound color={colors.black} />
             )}
@@ -69,14 +75,21 @@ const ContactScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  contactBorderTop: {
+    borderTopColor: colors.black,
+    borderTopWidth: 0.5,
+  },
   contactCardStyle: {
     display: 'flex',
+
+    marginTop: 5,
     flexDirection: 'row',
     gap: 10,
     alignItems: 'center',
   },
   contactContainerStyle: {
     paddingVertical: 10,
+
     backgroundColor: colors.white,
     paddingHorizontal: 10,
     borderRadius: 40,
